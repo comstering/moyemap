@@ -1,0 +1,362 @@
+[
+  {
+    "id": "ig-CxR3k2mPqA1",
+    "title": "홍대 금요 와인파티 - 20대 30대 소셜모임",
+    "category": "social",
+    "location": {
+      "name": "와인살롱 홍대점",
+      "lat": 37.5563,
+      "lng": 126.9220,
+      "region": "홍대/연남"
+    },
+    "date": "2026-04-18",
+    "time": "19:30",
+    "price": 35000,
+    "ageRange": "25-35세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&h=400&fit=crop"
+    ],
+    "description": "매주 금요일 저녁, 홍대에서 열리는 와인 소셜파티입니다. 와인 3잔 + 핑거푸드 포함. 편안한 분위기에서 새로운 사람들과 만나보세요!",
+    "amenities": ["와인 3잔", "핑거푸드", "보드게임"],
+    "sourceUrl": "https://www.instagram.com/p/CxR3k2mPqA1/",
+    "tags": ["소셜파티", "홍대파티", "와인파티", "2030모임", "금요모임"],
+    "source": "instagram"
+  },
+  {
+    "id": "ig-DyQ8mNvRsB2",
+    "title": "이태원 루프탑 칵테일 나이트",
+    "category": "bar",
+    "location": {
+      "name": "루프탑바 그랜드",
+      "lat": 37.5340,
+      "lng": 126.9948,
+      "region": "이태원"
+    },
+    "date": "2026-04-19",
+    "time": "20:00",
+    "price": 45000,
+    "ageRange": "25-39세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=600&h=400&fit=crop"
+    ],
+    "description": "이태원 루프탑에서 즐기는 프리미엄 칵테일 나이트. 시그니처 칵테일 2잔 포함, DJ 라이브와 함께하는 도심 속 파티.",
+    "amenities": ["칵테일 2잔", "DJ", "루프탑 뷰"],
+    "sourceUrl": "https://www.instagram.com/p/DyQ8mNvRsB2/",
+    "tags": ["이태원바", "루프탑", "칵테일", "혼술바", "나이트"],
+    "source": "instagram"
+  },
+  {
+    "id": "ig-EzP7kLwQtC3",
+    "title": "성수 목요 혼술모임 - 위스키 테이스팅",
+    "category": "bar",
+    "location": {
+      "name": "위스키하우스 성수",
+      "lat": 37.5445,
+      "lng": 127.0557,
+      "region": "성수"
+    },
+    "date": "2026-04-17",
+    "time": "19:00",
+    "price": 40000,
+    "ageRange": "27-40세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "성수동 숨은 위스키바에서 진행하는 혼술 테이스팅 모임. 싱글몰트 3종 비교 테이스팅 + 안주 페어링.",
+    "amenities": ["위스키 3종", "안주 페어링", "테이스팅 노트"],
+    "sourceUrl": "https://www.instagram.com/p/EzP7kLwQtC3/",
+    "tags": ["혼술", "위스키", "성수", "테이스팅", "목요모임"],
+    "source": "instagram"
+  },
+  {
+    "id": "frip-1",
+    "title": "강남 스타트업 네트워킹 나이트",
+    "category": "networking",
+    "location": {
+      "name": "코워킹 라운지 강남",
+      "lat": 37.4979,
+      "lng": 127.0276,
+      "region": "강남"
+    },
+    "date": "2026-04-22",
+    "time": "19:00",
+    "price": 25000,
+    "ageRange": "25-40세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&h=400&fit=crop"
+    ],
+    "description": "IT/스타트업 종사자를 위한 캐주얼 네트워킹. 라이트닝 토크 3건 + 자유 네트워킹 + 음료 무제한.",
+    "amenities": ["음료 무제한", "라이트닝 토크", "명함교환"],
+    "sourceUrl": "https://www.frip.co.kr/products/12345",
+    "tags": ["네트워킹", "스타트업", "강남", "IT모임"],
+    "source": "frip"
+  },
+  {
+    "id": "frip-2",
+    "title": "홍대 보드게임 소셜파티",
+    "category": "social",
+    "location": {
+      "name": "보드게임카페 다이스",
+      "lat": 37.5571,
+      "lng": 126.9259,
+      "region": "홍대/연남"
+    },
+    "date": "2026-04-20",
+    "time": "14:00",
+    "price": 20000,
+    "ageRange": "20-35세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "처음 만난 사람들과 보드게임으로 자연스럽게 친해지는 소셜파티. 음료 1잔 포함, 게임 마스터가 진행.",
+    "amenities": ["음료 1잔", "게임 마스터", "보드게임"],
+    "sourceUrl": "https://www.frip.co.kr/products/23456",
+    "tags": ["보드게임", "소셜파티", "홍대", "주말모임"],
+    "source": "frip"
+  },
+  {
+    "id": "frip-3",
+    "title": "연남동 쿠킹파티 - 이탈리안 디너",
+    "category": "social",
+    "location": {
+      "name": "쿠킹스튜디오 연남",
+      "lat": 37.5620,
+      "lng": 126.9246,
+      "region": "홍대/연남"
+    },
+    "date": "2026-04-19",
+    "time": "18:00",
+    "price": 55000,
+    "ageRange": "25-40세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=400&fit=crop"
+    ],
+    "description": "함께 요리하고 함께 먹는 이탈리안 쿠킹파티. 파스타 + 리조또 + 와인 페어링. 요리 경험 없어도 OK!",
+    "amenities": ["식재료 전체", "와인 1잔", "레시피북", "앞치마"],
+    "sourceUrl": "https://www.frip.co.kr/products/34567",
+    "tags": ["쿠킹파티", "이탈리안", "연남동", "소셜다이닝"],
+    "source": "frip"
+  },
+  {
+    "id": "naver-1",
+    "title": "을지로 하이볼바 니시",
+    "category": "bar",
+    "location": {
+      "name": "서울 중구 을지로 14길 8",
+      "lat": 37.5660,
+      "lng": 126.9920,
+      "region": "서울"
+    },
+    "date": "",
+    "time": "18:00",
+    "price": 15000,
+    "ageRange": "20-30대",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "을지로 감성의 하이볼 전문 바. 시그니처 하이볼과 함께하는 혼술 스팟.",
+    "amenities": [],
+    "sourceUrl": "https://map.naver.com/p/search/을지로%20하이볼바%20니시",
+    "tags": ["혼술바", "하이볼", "을지로"],
+    "source": "naver_place"
+  },
+  {
+    "id": "naver-2",
+    "title": "이태원 내추럴와인바 르뱅",
+    "category": "bar",
+    "location": {
+      "name": "서울 용산구 이태원로 234",
+      "lat": 37.5345,
+      "lng": 126.9950,
+      "region": "이태원"
+    },
+    "date": "",
+    "time": "17:00",
+    "price": 20000,
+    "ageRange": "20-30대",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "내추럴와인 전문 바. 소믈리에 추천 와인과 치즈 플레이트.",
+    "amenities": [],
+    "sourceUrl": "https://map.naver.com/p/search/이태원%20내추럴와인바",
+    "tags": ["와인바", "이태원", "내추럴와인", "혼술"],
+    "source": "naver_place"
+  },
+  {
+    "id": "naver-3",
+    "title": "홍대 사케바 쿠라",
+    "category": "bar",
+    "location": {
+      "name": "서울 마포구 와우산로 42",
+      "lat": 37.5545,
+      "lng": 126.9265,
+      "region": "홍대/연남"
+    },
+    "date": "",
+    "time": "18:00",
+    "price": 18000,
+    "ageRange": "20-30대",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "일본 현지 감성의 사케바. 준마이다이긴조부터 스파클링 사케까지 다양한 라인업.",
+    "amenities": [],
+    "sourceUrl": "https://map.naver.com/p/search/홍대%20사케바",
+    "tags": ["사케바", "홍대", "일본술", "혼술"],
+    "source": "naver_place"
+  },
+  {
+    "id": "somoim-1",
+    "title": "강남 금요 직장인 번개 - 퇴근 후 한잔",
+    "category": "social",
+    "location": {
+      "name": "강남역 부근",
+      "lat": 37.4979,
+      "lng": 127.0276,
+      "region": "강남"
+    },
+    "date": "2026-04-18",
+    "time": "19:30",
+    "price": 30000,
+    "ageRange": "27-38세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "금요일 퇴근 후 편하게 만나는 직장인 번개모임. 맥주 2잔 + 안주 포함. 매주 다른 맛집에서 진행!",
+    "amenities": ["맥주 2잔", "안주"],
+    "sourceUrl": "https://somoim.co.kr/lightning/12345",
+    "tags": ["직장인모임", "번개", "강남", "퇴근후", "소모임"],
+    "source": "somoim"
+  },
+  {
+    "id": "somoim-2",
+    "title": "성수 일요 브런치 소셜 모임",
+    "category": "social",
+    "location": {
+      "name": "성수동 카페거리",
+      "lat": 37.5448,
+      "lng": 127.0565,
+      "region": "성수"
+    },
+    "date": "2026-04-20",
+    "time": "11:00",
+    "price": 25000,
+    "ageRange": "25-35세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "성수동 핫플 카페에서 즐기는 일요 브런치 모임. 브런치 세트 포함, 편안한 대화와 함께.",
+    "amenities": ["브런치 세트", "음료 1잔"],
+    "sourceUrl": "https://somoim.co.kr/lightning/23456",
+    "tags": ["브런치", "성수", "일요모임", "소셜", "소모임"],
+    "source": "somoim"
+  },
+  {
+    "id": "ig-FaO6jKvPuD4",
+    "title": "홍대 게스트하우스 금요 파티",
+    "category": "guesthouse",
+    "location": {
+      "name": "트래블러스 게스트하우스 홍대",
+      "lat": 37.5573,
+      "lng": 126.9234,
+      "region": "홍대/연남"
+    },
+    "date": "2026-04-18",
+    "time": "21:00",
+    "price": 15000,
+    "ageRange": "20-35세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=400&fit=crop"
+    ],
+    "description": "매주 금요일 밤, 홍대 게스트하우스에서 열리는 인터내셔널 파티! 외국인 여행자 + 로컬이 함께하는 파티. 맥주 무제한.",
+    "amenities": ["맥주 무제한", "DJ", "포토존"],
+    "sourceUrl": "https://www.instagram.com/p/FaO6jKvPuD4/",
+    "tags": ["게하파티", "홍대", "인터내셔널", "금요파티", "게스트하우스"],
+    "source": "instagram"
+  },
+  {
+    "id": "somoim-3",
+    "title": "마포 독서모임 + 와인 한잔",
+    "category": "networking",
+    "location": {
+      "name": "북카페 마포",
+      "lat": 37.5536,
+      "lng": 126.9080,
+      "region": "신촌/마포"
+    },
+    "date": "2026-04-23",
+    "time": "19:00",
+    "price": 15000,
+    "ageRange": "25-40세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "이달의 책을 읽고 와인 한잔하며 이야기 나누는 독서모임. 와인 1잔 포함.",
+    "amenities": ["와인 1잔"],
+    "sourceUrl": "https://somoim.co.kr/lightning/34567",
+    "tags": ["독서모임", "와인", "마포", "네트워킹", "소모임"],
+    "source": "somoim"
+  },
+  {
+    "id": "frip-4",
+    "title": "한남동 재즈바 라이브 파티",
+    "category": "bar",
+    "location": {
+      "name": "재즈라운지 한남",
+      "lat": 37.5348,
+      "lng": 127.0010,
+      "region": "이태원"
+    },
+    "date": "2026-04-19",
+    "time": "20:30",
+    "price": 50000,
+    "ageRange": "28-45세",
+    "genderRatio": null,
+    "imageUrl": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&h=400&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&h=400&fit=crop"
+    ],
+    "description": "한남동 재즈라운지에서 라이브 공연과 함께하는 프리미엄 재즈 나이트. 칵테일 2잔 포함.",
+    "amenities": ["칵테일 2잔", "라이브 재즈", "착석"],
+    "sourceUrl": "https://www.frip.co.kr/products/45678",
+    "tags": ["재즈", "한남동", "라이브", "바", "프리미엄"],
+    "source": "frip"
+  },
+  {
+    "id": "ig-GbN5iJuOvE5",
+    "title": "강남 토요 데이팅 소셜파티",
+    "category": "social",
+    "location": {
+      "name": "소셜라운지 강남",
+      "lat": 37.5010,
+      "lng": 127.0240,
+      "region": "강남"
+    },
+    "date": "2026-04-19",
+    "time": "15:00",
+    "price": 35000,
+    "ageRange": "27-37세",
+    "genderRatio": "1:1",
+    "imageUrl": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop",
+    "images": [],
+    "description": "토요일 오후 강남에서 열리는 1:1 매칭 소셜파티. 5:5 소그룹 로테이션 + 보드게임 아이스브레이킹.",
+    "amenities": ["음료 무제한", "보드게임", "1:1 매칭"],
+    "sourceUrl": "https://www.instagram.com/p/GbN5iJuOvE5/",
+    "tags": ["소셜파티", "데이팅", "강남", "1대1", "토요모임"],
+    "source": "instagram"
+  }
+]
