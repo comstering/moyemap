@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Light mode (default) — 소셜 & 에너제틱 코랄 ── */
+@theme {
+  --color-primary: #FF6B6B;
+  --color-primary-hover: #E55A5A;
+  --color-primary-glow: rgba(255, 107, 107, 0.20);
+  --color-primary-subtle: rgba(255, 107, 107, 0.10);
+
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #FFFFFF;
+  --color-surface-elevated: #F8F9FA;
+  --color-surface-panel: rgba(255, 255, 255, 0.85);
+
+  --color-text: #2B2B2B;
+  --color-text-secondary: #636e72;
+  --color-text-muted: #b2bec3;
+
+  --color-border: #e8e8e8;
+  --color-border-subtle: rgba(232, 232, 232, 0.50);
+
+  --color-tag-bg: #f5f5f5;
+}
+
+/* ── Dark mode overrides ── */
+.dark {
+  --color-primary: #FF8787;
+  --color-primary-hover: #FFA0A0;
+  --color-primary-glow: rgba(255, 135, 135, 0.25);
+  --color-primary-subtle: rgba(255, 135, 135, 0.10);
+
+  --color-surface: #18191A;
+  --color-surface-alt: #242526;
+  --color-surface-elevated: #2d2e30;
+  --color-surface-panel: rgba(24, 25, 26, 0.85);
+
+  --color-text: #E4E6EB;
+  --color-text-secondary: #a0a3a8;
+  --color-text-muted: #606770;
+
+  --color-border: #3a3b3c;
+  --color-border-subtle: rgba(58, 59, 60, 0.50);
+
+  --color-tag-bg: #2d2e30;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom thin scrollbar for panels */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
 }
