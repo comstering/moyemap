@@ -29,26 +29,26 @@
   --color-tag-bg: #f5f5f5;
 }
 
-/* ── Dark mode overrides ── */
+/* ── Dark mode — 서울 클럽 ── */
 .dark {
-  --color-primary: #FF8787;
-  --color-primary-hover: #FFA0A0;
-  --color-primary-glow: rgba(255, 135, 135, 0.25);
-  --color-primary-subtle: rgba(255, 135, 135, 0.10);
+  --color-primary: #FF2D6B;
+  --color-primary-hover: #E0185A;
+  --color-primary-glow: rgba(255, 45, 107, 0.25);
+  --color-primary-subtle: rgba(255, 45, 107, 0.12);
 
-  --color-surface: #18191A;
-  --color-surface-alt: #242526;
-  --color-surface-elevated: #2d2e30;
-  --color-surface-panel: rgba(24, 25, 26, 0.85);
+  --color-surface: #0D0E17;
+  --color-surface-alt: #13141F;
+  --color-surface-elevated: #1E2030;
+  --color-surface-panel: rgba(13, 14, 23, 0.90);
 
-  --color-text: #E4E6EB;
-  --color-text-secondary: #a0a3a8;
-  --color-text-muted: #606770;
+  --color-text: #E8EAF6;
+  --color-text-secondary: #8B90B8;
+  --color-text-muted: #4A4F72;
 
-  --color-border: #3a3b3c;
-  --color-border-subtle: rgba(58, 59, 60, 0.50);
+  --color-border: #262A45;
+  --color-border-subtle: rgba(38, 42, 69, 0.50);
 
-  --color-tag-bg: #2d2e30;
+  --color-tag-bg: #1A1C2E;
 }
 
 body {
@@ -74,4 +74,20 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 2px;
+}
+
+/* Map marker bounce animation for selected state */
+@keyframes markerBounce {
+  0%, 100% { transform: scale(1.15) translateY(0px); }
+  50% { transform: scale(1.18) translateY(-3px); }
+}
+
+/* Urgency badge pulse */
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.badge-pulse {
+  animation: badgePulse 2s ease-in-out infinite;
 }

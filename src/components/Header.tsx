@@ -1,36 +1,36 @@
 'use client';
 
-import { Compass, Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="h-16 shrink-0 px-6 flex items-center justify-between bg-surface-panel backdrop-blur-xl border-b border-border z-50 transition-colors">
-      <div className="flex items-center gap-3">
-        <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary-glow">
-          <Compass className="w-5 h-5 text-white" />
+    <header className="h-12 shrink-0 px-4 flex items-center justify-between bg-surface-panel backdrop-blur-xl border-b border-border z-50 transition-colors">
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-md shadow-primary/30 overflow-hidden bg-gradient-to-br from-primary to-amber-400">
+          <span className="text-lg leading-none">🗺️</span>
         </div>
-        <div>
-          <h1 className="text-lg font-black tracking-tight text-text">
-            모여맵 <span className="text-primary text-sm font-bold ml-0.5">MoyeMap</span>
-          </h1>
-        </div>
+        <h1 className="text-sm font-black tracking-tight leading-none">
+          <span className="bg-gradient-to-r from-primary to-amber-400 bg-clip-text text-transparent">모여맵</span>
+          <span className="text-text-muted text-[11px] font-semibold ml-1.5 align-middle">MoyeMap</span>
+        </h1>
       </div>
-      <div className="flex items-center gap-3">
-        <p className="hidden sm:block text-xs text-text-muted font-medium">
-          오늘 밤, 내 주변 핫한 모임을 한눈에
+
+      <div className="flex items-center gap-2">
+        <p className="hidden md:block text-[11px] text-text-muted font-medium">
+          오늘 밤, 내 주변 핫한 모임 한눈에
         </p>
         <button
           onClick={toggleTheme}
-          className="w-9 h-9 flex items-center justify-center rounded-xl border border-border bg-surface-alt hover:bg-surface-elevated transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded-xl border border-border bg-surface-alt hover:bg-surface-elevated transition-colors"
           aria-label={theme === 'dark' ? '라이트 모드' : '다크 모드'}
         >
           {theme === 'dark' ? (
-            <Sun className="w-4 h-4 text-amber-400" />
+            <Sun className="w-3.5 h-3.5 text-amber-400" />
           ) : (
-            <Moon className="w-4 h-4 text-text-secondary" />
+            <Moon className="w-3.5 h-3.5 text-text-secondary" />
           )}
         </button>
       </div>

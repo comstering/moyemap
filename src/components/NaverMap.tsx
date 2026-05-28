@@ -1,108 +1,119 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Party } from '@/types/party';
+import { VenueMarker, VenueCategory } from '@/types/venue';
 import { useTheme } from './ThemeProvider';
 
-const MARKER_COLORS: Record<Party['category'], { bg: string; border: string }> = {
-  social: { bg: '#FF6B6B', border: '#E55A5A' },
-  bar: { bg: '#f59e0b', border: '#d97706' },
-  guesthouse: { bg: '#8B5CF6', border: '#7C3AED' },
-  networking: { bg: '#10b981', border: '#059669' },
+const MARKER_COLORS: Record<VenueCategory, { bg: string; border: string }> = {
+  SOCIAL_PARTY:      { bg: '#FF6B6B', border: '#E55A5A' },
+  SOLO_PARTY:        { bg: '#FF8C42', border: '#E57A35' },
+  GUESTHOUSE_PARTY:  { bg: '#A855F7', border: '#9333EA' },
+  ROTATION_DATING:   { bg: '#EC4899', border: '#DB2777' },
+  NETWORKING:        { bg: '#10B981', border: '#059669' },
+  HONSOOL_BAR:       { bg: '#F59E0B', border: '#D97706' },
+  BAR:               { bg: '#F59E0B', border: '#D97706' },
+  WORKSHOP:          { bg: '#3B82F6', border: '#2563EB' },
+  ETC:               { bg: '#6B7280', border: '#4B5563' },
 };
 
-const MARKER_COLORS_DARK: Record<Party['category'], { bg: string; border: string }> = {
-  social: { bg: '#FF8787', border: '#FF6B6B' },
-  bar: { bg: '#fbbf24', border: '#f59e0b' },
-  guesthouse: { bg: '#A78BFA', border: '#8B5CF6' },
-  networking: { bg: '#34d399', border: '#10b981' },
+const MARKER_COLORS_DARK: Record<VenueCategory, { bg: string; border: string }> = {
+  SOCIAL_PARTY:      { bg: '#FF8787', border: '#FF6B6B' },
+  SOLO_PARTY:        { bg: '#FFA06B', border: '#FF8C42' },
+  GUESTHOUSE_PARTY:  { bg: '#C084FC', border: '#A855F7' },
+  ROTATION_DATING:   { bg: '#F472B6', border: '#EC4899' },
+  NETWORKING:        { bg: '#34D399', border: '#10B981' },
+  HONSOOL_BAR:       { bg: '#FBBF24', border: '#F59E0B' },
+  BAR:               { bg: '#FBBF24', border: '#F59E0B' },
+  WORKSHOP:          { bg: '#60A5FA', border: '#3B82F6' },
+  ETC:               { bg: '#9CA3AF', border: '#6B7280' },
 };
 
-const CATEGORY_ICONS: Record<Party['category'], string> = {
-  social: '\u{1F389}',
-  bar: '\u{1F37A}',
-  guesthouse: '\u{1F3E0}',
-  networking: '\u{1F91D}',
+const CATEGORY_ICONS: Record<VenueCategory, string> = {
+  SOCIAL_PARTY:     '🎉',
+  SOLO_PARTY:       '🎊',
+  GUESTHOUSE_PARTY: '🏠',
+  ROTATION_DATING:  '💕',
+  NETWORKING:       '🤝',
+  HONSOOL_BAR:      '🍺',
+  BAR:              '🍸',
+  WORKSHOP:         '🔧',
+  ETC:              '📌',
 };
 
-const CATEGORY_LABELS: Record<Party['category'], string> = {
-  social: '소셜파티',
-  bar: '혼술바',
-  guesthouse: '게하파티',
-  networking: '네트워킹',
+const CATEGORY_LABELS: Record<VenueCategory, string> = {
+  SOCIAL_PARTY:     '소셜파티',
+  SOLO_PARTY:       '혼파티',
+  GUESTHOUSE_PARTY: '게하파티',
+  ROTATION_DATING:  '로데이션',
+  NETWORKING:       '네트워킹',
+  HONSOOL_BAR:      '혼술바',
+  BAR:              '바',
+  WORKSHOP:         '워크샵',
+  ETC:              '기타',
 };
+
+type Bounds = { sw: { lat: number; lng: number }; ne: { lat: number; lng: number } };
 
 interface NaverMapProps {
-  parties: Party[];
-  selectedPartyId?: string | null;
-  onPartySelect: (party: Party) => void;
-  onBoundsChange?: (bounds: { sw: { lat: number; lng: number }; ne: { lat: number; lng: number } }) => void;
+  markers: VenueMarker[];
+  selectedVenueId?: string | null;
+  onVenueSelect: (id: string) => void;
+  onBoundsChange?: (bounds: Bounds) => void;
 }
 
-function createMarkerContent(party: Party, isSelected: boolean, isHovered: boolean, isDark: boolean) {
-  const colors = isDark ? MARKER_COLORS_DARK[party.category] : MARKER_COLORS[party.category];
-  const icon = CATEGORY_ICONS[party.category];
+function createMarkerContent(marker: VenueMarker, isSelected: boolean, isHovered: boolean, isDark: boolean) {
+  const colors = isDark ? MARKER_COLORS_DARK[marker.category] : MARKER_COLORS[marker.category];
+  const icon = CATEGORY_ICONS[marker.category];
   const active = isSelected || isHovered;
-  const scale = active ? 1.15 : 1;
-  const priceText = `\u{20A9}${(party.price / 10000).toFixed(party.price % 10000 === 0 ? 0 : 1)}만`;
+  const priceText = `₩${(marker.price / 10000).toFixed(marker.price % 10000 === 0 ? 0 : 1)}만`;
+
+  const outerStyle = isSelected
+    ? `animation: markerBounce 1.5s ease-in-out infinite; cursor:pointer; filter:drop-shadow(0 6px 14px rgba(0,0,0,${isDark ? '0.6' : '0.35'}));`
+    : `transform:scale(${active ? 1.12 : 1}); transition:transform 0.2s ease; cursor:pointer; filter:drop-shadow(0 4px 10px rgba(0,0,0,${isDark ? '0.5' : '0.25'}));`;
 
   return `
-    <div style="transform:scale(${scale});transition:transform 0.2s ease;cursor:pointer;filter:drop-shadow(0 4px 10px rgba(0,0,0,${isDark ? '0.5' : '0.25'}));">
+    <div style="${outerStyle}">
       <div style="
         display:flex;align-items:center;gap:4px;
         background:${colors.bg};
         color:#fff;
-        padding:6px 10px;
+        padding:5px 10px;
         border-radius:20px;
         border:2.5px solid ${active ? '#fff' : colors.border};
         font-family:system-ui,-apple-system,sans-serif;
         font-size:12px;font-weight:800;
         white-space:nowrap;
-        box-shadow:${active ? '0 0 0 3px ' + colors.bg + '60' : 'none'};
+        box-shadow:${active ? '0 0 0 3px ' + colors.bg + '55' : 'none'};
       ">
-        <span style="font-size:14px;line-height:1;">${icon}</span>
+        <span style="font-size:13px;line-height:1;">${icon}</span>
         <span>${priceText}</span>
       </div>
       <div style="
         width:0;height:0;
-        border-left:7px solid transparent;
-        border-right:7px solid transparent;
-        border-top:8px solid ${colors.bg};
-        margin:0 auto;
-        margin-top:-1px;
+        border-left:6px solid transparent;
+        border-right:6px solid transparent;
+        border-top:7px solid ${colors.bg};
+        margin:0 auto;margin-top:-1px;
       "></div>
     </div>
   `;
 }
 
-function createInfoContent(party: Party, isDark: boolean) {
-  const colors = isDark ? MARKER_COLORS_DARK[party.category] : MARKER_COLORS[party.category];
+function createInfoContent(marker: VenueMarker, isDark: boolean) {
+  const colors = isDark ? MARKER_COLORS_DARK[marker.category] : MARKER_COLORS[marker.category];
   const bg = isDark ? '#18191A' : '#ffffff';
   const textPrimary = isDark ? '#E4E6EB' : '#2B2B2B';
   const textSecondary = isDark ? '#a0a3a8' : '#636e72';
   const borderColor = isDark ? '#3a3b3c' : '#e8e8e8';
-
   return `
-    <div onclick="window.__navigateToParty('${party.id}')" style="padding:14px 18px;min-width:220px;font-family:system-ui,-apple-system,sans-serif;background:${bg};border-radius:12px;border:1px solid ${borderColor};box-shadow:0 8px 24px rgba(0,0,0,${isDark ? '0.4' : '0.12'});cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='${colors.bg}'" onmouseout="this.style.borderColor='${borderColor}'">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-        <span style="font-size:16px;">${CATEGORY_ICONS[party.category]}</span>
-        <span style="font-size:11px;font-weight:700;color:${colors.bg};text-transform:uppercase;letter-spacing:0.05em;">
-          ${CATEGORY_LABELS[party.category]}
-        </span>
+    <div style="padding:14px 16px;min-width:220px;max-width:260px;font-family:system-ui,-apple-system,sans-serif;background:${bg};border-radius:14px;border:1px solid ${borderColor};box-shadow:0 8px 28px rgba(0,0,0,${isDark ? '0.45' : '0.14'});">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;">
+        <span style="font-size:15px;">${CATEGORY_ICONS[marker.category]}</span>
+        <span style="font-size:10px;font-weight:700;color:${colors.bg};letter-spacing:0.04em;">${CATEGORY_LABELS[marker.category]}</span>
       </div>
-      <div style="font-size:15px;font-weight:700;color:${textPrimary};margin-bottom:8px;line-height:1.3;">
-        ${party.title}
-      </div>
-      <div style="font-size:12px;color:${textSecondary};margin-bottom:6px;">
-        ${party.date} · ${party.time}
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:18px;font-weight:800;color:${colors.bg};">
-          \u{20A9}${party.price.toLocaleString()}
-        </span>
-        <span style="font-size:11px;color:${textSecondary};font-weight:600;">상세보기 →</span>
-      </div>
+      <div style="font-size:14px;font-weight:700;color:${textPrimary};margin-bottom:6px;line-height:1.35;">${marker.title}</div>
+      <div style="font-size:11px;color:${textSecondary};margin-bottom:10px;">📍 ${marker.region}</div>
+      <div style="font-size:18px;font-weight:800;color:${textPrimary};">₩${marker.price.toLocaleString()}</div>
     </div>
   `;
 }
@@ -110,23 +121,23 @@ function createInfoContent(party: Party, isDark: boolean) {
 const DEFAULT_CENTER = { lat: 37.5175, lng: 126.9674 };
 
 export default function NaverMap({
-  parties,
-  selectedPartyId,
-  onPartySelect,
+  markers,
+  selectedVenueId,
+  onVenueSelect,
   onBoundsChange,
 }: NaverMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<naver.maps.Map | null>(null);
   const markersRef = useRef<Map<string, naver.maps.Marker>>(new Map());
   const infoWindowsRef = useRef<Map<string, naver.maps.InfoWindow>>(new Map());
-  const openInfoPartyIdRef = useRef<string | null>(null);
+  const openInfoVenueIdRef = useRef<string | null>(null);
+  const currentBoundsRef = useRef<Bounds | null>(null);
+  const isFirstIdleRef = useRef(true);
+  const onBoundsChangeRef = useRef(onBoundsChange);
+  onBoundsChangeRef.current = onBoundsChange;
   const [showResearch, setShowResearch] = useState(false);
   const { theme } = useTheme();
-  const router = useRouter();
-  const routerRef = useRef(router);
-  routerRef.current = router;
 
-  // Initialize map & cleanup on unmount
   useEffect(() => {
     if (!mapRef.current || !window.naver?.maps) return;
 
@@ -142,22 +153,26 @@ export default function NaverMap({
     mapInstanceRef.current = map;
 
     naver.maps.Event.addListener(map, 'idle', () => {
-      setShowResearch(true);
-      if (onBoundsChange) {
-        const bounds = map.getBounds();
-        onBoundsChange({
-          sw: { lat: bounds.getMin().lat(), lng: bounds.getMin().lng() },
-          ne: { lat: bounds.getMax().lat(), lng: bounds.getMax().lng() },
-        });
+      const b = map.getBounds();
+      const bounds: Bounds = {
+        sw: { lat: b.getMin().lat(), lng: b.getMin().lng() },
+        ne: { lat: b.getMax().lat(), lng: b.getMax().lng() },
+      };
+      currentBoundsRef.current = bounds;
+
+      if (isFirstIdleRef.current) {
+        isFirstIdleRef.current = false;
+        onBoundsChangeRef.current?.(bounds);
+      } else {
+        setShowResearch(true);
       }
     });
 
-    // Click on empty map area → close info window
     naver.maps.Event.addListener(map, 'click', () => {
-      if (openInfoPartyIdRef.current) {
-        const iw = infoWindowsRef.current.get(openInfoPartyIdRef.current);
+      if (openInfoVenueIdRef.current) {
+        const iw = infoWindowsRef.current.get(openInfoVenueIdRef.current);
         if (iw) iw.close();
-        openInfoPartyIdRef.current = null;
+        openInfoVenueIdRef.current = null;
       }
     });
 
@@ -166,31 +181,29 @@ export default function NaverMap({
       mapInstanceRef.current = null;
       markersRef.current.clear();
       infoWindowsRef.current.clear();
-      openInfoPartyIdRef.current = null;
+      openInfoVenueIdRef.current = null;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create markers when parties or theme changes
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    // Clear old markers & info windows
     markersRef.current.forEach((m) => m.setMap(null));
     markersRef.current.clear();
     infoWindowsRef.current.forEach((iw) => iw.close());
     infoWindowsRef.current.clear();
-    openInfoPartyIdRef.current = null;
+    openInfoVenueIdRef.current = null;
 
     const isDark = theme === 'dark';
 
-    parties.forEach((party) => {
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(party.location.lat, party.location.lng),
+    markers.forEach((marker) => {
+      const mapMarker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(marker.latitude, marker.longitude),
         map,
         icon: {
-          content: createMarkerContent(party, false, false, isDark),
+          content: createMarkerContent(marker, false, false, isDark),
           size: new naver.maps.Size(80, 50),
           anchor: new naver.maps.Point(40, 50),
         },
@@ -198,7 +211,7 @@ export default function NaverMap({
       });
 
       const infoWindow = new naver.maps.InfoWindow({
-        content: createInfoContent(party, isDark),
+        content: createInfoContent(marker, isDark),
         borderWidth: 0,
         borderColor: 'transparent',
         backgroundColor: 'transparent',
@@ -206,99 +219,80 @@ export default function NaverMap({
         pixelOffset: new naver.maps.Point(0, -8),
       });
 
-      naver.maps.Event.addListener(marker, 'click', () => {
-        // Close previously open info window
-        if (openInfoPartyIdRef.current && openInfoPartyIdRef.current !== party.id) {
-          const prevIw = infoWindowsRef.current.get(openInfoPartyIdRef.current);
+      naver.maps.Event.addListener(mapMarker, 'click', () => {
+        if (openInfoVenueIdRef.current && openInfoVenueIdRef.current !== marker.id) {
+          const prevIw = infoWindowsRef.current.get(openInfoVenueIdRef.current);
           if (prevIw) prevIw.close();
         }
 
-        if (openInfoPartyIdRef.current === party.id) {
-          // Toggle off if clicking same marker
+        if (openInfoVenueIdRef.current === marker.id) {
           infoWindow.close();
-          openInfoPartyIdRef.current = null;
+          openInfoVenueIdRef.current = null;
         } else {
-          infoWindow.open(map, marker);
-          openInfoPartyIdRef.current = party.id;
+          infoWindow.open(map, mapMarker);
+          openInfoVenueIdRef.current = marker.id;
         }
 
-        onPartySelect(party);
+        onVenueSelect(marker.id);
       });
 
-      markersRef.current.set(party.id, marker);
-      infoWindowsRef.current.set(party.id, infoWindow);
+      markersRef.current.set(marker.id, mapMarker);
+      infoWindowsRef.current.set(marker.id, infoWindow);
     });
-  }, [parties, theme, onPartySelect]);
+  }, [markers, theme, onVenueSelect]);
 
-  // Update marker appearance for selection (without recreating)
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
     const isDark = theme === 'dark';
 
-    parties.forEach((party) => {
-      const marker = markersRef.current.get(party.id);
-      if (!marker) return;
-
-      const isSelected = party.id === selectedPartyId;
-
-      marker.setIcon({
-        content: createMarkerContent(party, isSelected, false, isDark),
+    markers.forEach((marker) => {
+      const mapMarker = markersRef.current.get(marker.id);
+      if (!mapMarker) return;
+      const isSelected = marker.id === selectedVenueId;
+      mapMarker.setIcon({
+        content: createMarkerContent(marker, isSelected, false, isDark),
         size: new naver.maps.Size(80, 50),
         anchor: new naver.maps.Point(40, 50),
       });
-      marker.setZIndex(isSelected ? 200 : 10);
+      mapMarker.setZIndex(isSelected ? 200 : 10);
     });
-  }, [selectedPartyId, parties, theme]);
+  }, [selectedVenueId, markers, theme]);
 
-  // Pan to selected party & open its info window
   useEffect(() => {
     const map = mapInstanceRef.current;
-    if (!map || !selectedPartyId) return;
+    if (!map || !selectedVenueId) return;
 
-    const party = parties.find((p) => p.id === selectedPartyId);
-    if (!party) return;
+    const marker = markers.find((m) => m.id === selectedVenueId);
+    if (!marker) return;
 
-    map.panTo(
-      new naver.maps.LatLng(party.location.lat, party.location.lng),
-      { duration: 300 }
-    );
+    map.panTo(new naver.maps.LatLng(marker.latitude, marker.longitude), { duration: 300 });
 
-    // Close previous info window if different
-    if (openInfoPartyIdRef.current && openInfoPartyIdRef.current !== selectedPartyId) {
-      const prevIw = infoWindowsRef.current.get(openInfoPartyIdRef.current);
+    if (openInfoVenueIdRef.current && openInfoVenueIdRef.current !== selectedVenueId) {
+      const prevIw = infoWindowsRef.current.get(openInfoVenueIdRef.current);
       if (prevIw) prevIw.close();
     }
 
-    // Open info window for selected party
-    const marker = markersRef.current.get(selectedPartyId);
-    const infoWindow = infoWindowsRef.current.get(selectedPartyId);
-    if (marker && infoWindow && openInfoPartyIdRef.current !== selectedPartyId) {
-      infoWindow.open(map, marker);
-      openInfoPartyIdRef.current = selectedPartyId;
+    const mapMarker = markersRef.current.get(selectedVenueId);
+    const infoWindow = infoWindowsRef.current.get(selectedVenueId);
+    if (mapMarker && infoWindow && openInfoVenueIdRef.current !== selectedVenueId) {
+      infoWindow.open(map, mapMarker);
+      openInfoVenueIdRef.current = selectedVenueId;
     }
-  }, [selectedPartyId, parties]);
-
-  // Global callback for InfoWindow clicks → Next.js client-side navigation
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).__navigateToParty = (id: string) => {
-      routerRef.current.push(`/party/${id}`);
-    };
-    return () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      delete (window as any).__navigateToParty;
-    };
-  }, []);
+  }, [selectedVenueId, markers]);
 
   const handleResearch = useCallback(() => {
     setShowResearch(false);
+    if (currentBoundsRef.current) {
+      onBoundsChangeRef.current?.(currentBoundsRef.current);
+    }
   }, []);
 
   if (typeof window !== 'undefined' && !window.naver?.maps) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-surface text-text-secondary">
         <div className="text-center space-y-2">
+          <p className="text-2xl">🗺️</p>
           <p className="text-sm font-medium">지도를 불러오는 중...</p>
           <p className="text-xs text-text-muted">NEXT_PUBLIC_NAVER_MAP_CLIENT_ID 환경변수를 확인해주세요</p>
         </div>
@@ -312,7 +306,7 @@ export default function NaverMap({
       {showResearch && (
         <button
           onClick={handleResearch}
-          className="absolute top-4 left-1/2 -translate-x-1/2 bg-surface-alt text-text px-5 py-2.5 rounded-full text-xs font-bold shadow-lg border border-border hover:bg-surface-elevated transition-all z-10"
+          className="absolute top-4 left-1/2 -translate-x-1/2 bg-surface-panel/90 backdrop-blur-md text-text px-4 py-2 rounded-full text-xs font-bold shadow-lg border border-border hover:bg-surface-elevated transition-all z-10"
         >
           이 지역에서 다시 검색
         </button>

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import ThemeProvider from "@/components/ThemeProvider";
 import Header from "@/components/Header";
+import ApolloWrapper from "@/lib/graphql/apollo-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,18 +35,20 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="h-full bg-surface text-text font-sans overflow-hidden transition-colors duration-300">
-        <ThemeProvider>
-          {naverMapClientId && (
-            <Script
-              src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapClientId}`}
-              strategy="beforeInteractive"
-            />
-          )}
-          <div className="flex flex-col h-full">
-            <Header />
-            <main className="flex-1 overflow-hidden">{children}</main>
-          </div>
-        </ThemeProvider>
+        <ApolloWrapper>
+          <ThemeProvider>
+            {naverMapClientId && (
+              <Script
+                src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapClientId}`}
+                strategy="beforeInteractive"
+              />
+            )}
+            <div className="flex flex-col h-full">
+              <Header />
+              <main className="flex-1 overflow-hidden">{children}</main>
+            </div>
+          </ThemeProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
