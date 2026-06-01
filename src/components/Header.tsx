@@ -1,6 +1,7 @@
 'use client';
 
 import { Sun, Moon } from 'lucide-react';
+import Image from 'next/image';
 import { useTheme } from './ThemeProvider';
 
 export default function Header() {
@@ -9,8 +10,8 @@ export default function Header() {
   return (
     <header className="h-12 shrink-0 px-4 flex items-center justify-between bg-surface-panel backdrop-blur-xl border-b border-border z-50 transition-colors">
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-md shadow-primary/30 overflow-hidden bg-gradient-to-br from-primary to-amber-400">
-          <span className="text-lg leading-none">🗺️</span>
+        <div className="w-8 h-8 rounded-xl overflow-hidden shrink-0">
+          <Image src="/logo.jpeg" alt="모여맵 로고" width={32} height={32} className="w-full h-full object-cover" priority />
         </div>
         <h1 className="text-sm font-black tracking-tight leading-none">
           <span className="bg-gradient-to-r from-primary to-amber-400 bg-clip-text text-transparent">모여맵</span>
