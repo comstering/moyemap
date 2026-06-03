@@ -42,7 +42,7 @@ const CATEGORY_ICONS: Record<VenueCategory, string> = {
 
 const CATEGORY_LABELS: Record<VenueCategory, string> = {
   SOCIAL_PARTY:     '소셜파티',
-  SOLO_PARTY:       '혼파티',
+  SOLO_PARTY:       '솔로파티',
   GUESTHOUSE_PARTY: '게하파티',
   ROTATION_DATING:  '로데이션',
   NETWORKING:       '네트워킹',
@@ -65,7 +65,10 @@ function createMarkerContent(marker: VenueMarker, isSelected: boolean, isHovered
   const colors = isDark ? MARKER_COLORS_DARK[marker.category] : MARKER_COLORS[marker.category];
   const icon = CATEGORY_ICONS[marker.category];
   const active = isSelected || isHovered;
-  const priceText = `₩${(marker.price / 10000).toFixed(marker.price % 10000 === 0 ? 0 : 1)}만`;
+  const rawPrice = Number(marker.price);
+  const priceText = rawPrice < 0 || Object.is(rawPrice, -0)
+    ? '금액확인중'
+    : `₩${(rawPrice / 10000).toFixed(rawPrice % 10000 === 0 ? 0 : 1)}만`;
 
   const outerStyle = isSelected
     ? `animation: markerBounce 1.5s ease-in-out infinite; cursor:pointer; filter:drop-shadow(0 6px 14px rgba(0,0,0,${isDark ? '0.6' : '0.35'}));`
@@ -113,7 +116,7 @@ function createInfoContent(marker: VenueMarker, isDark: boolean) {
       </div>
       <div style="font-size:14px;font-weight:700;color:${textPrimary};margin-bottom:6px;line-height:1.35;">${marker.title}</div>
       <div style="font-size:11px;color:${textSecondary};margin-bottom:10px;">📍 ${marker.region}</div>
-      <div style="font-size:18px;font-weight:800;color:${textPrimary};">₩${marker.price.toLocaleString()}</div>
+      <div style="font-size:18px;font-weight:800;color:${textPrimary};">${(() => { const p = Number(marker.price); return p < 0 || Object.is(p, -0) ? '금액확인중' : '₩' + p.toLocaleString(); })()}</div>
     </div>
   `;
 }

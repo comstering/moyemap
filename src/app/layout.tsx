@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import ApolloWrapper from "@/lib/graphql/apollo-provider";
 import "./globals.css";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://moyemap.com";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,8 +19,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "모여맵 MoyeMap - 내 주변 소셜 모임을 한눈에",
-  description: "소셜 파티, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 한눈에 비교하세요.",
+  description:
+    "소셜 파티, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 한눈에 비교하세요. 서울 홍대·강남·이태원·성수의 핫한 모임을 지도로 탐색하고 가격을 비교하세요.",
+  keywords: [
+    "소셜파티", "혼술바", "네트워킹", "소셜모임", "게스트하우스파티",
+    "로테이션데이팅", "서울 파티", "홍대 모임", "강남 파티", "이태원 바",
+    "성수 모임", "소셜다이닝", "2030 모임", "싱글파티",
+  ],
+  alternates: {
+    canonical: BASE_URL,
+  },
+  openGraph: {
+    type: "website",
+    url: BASE_URL,
+    siteName: "모여맵",
+    locale: "ko_KR",
+    title: "모여맵 - 내 주변 소셜 모임을 한눈에",
+    description:
+      "소셜 파티, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 한눈에 비교하세요.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "모여맵 - 내 주변 소셜 모임을 한눈에",
+    description:
+      "소셜 파티, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 한눈에 비교하세요.",
+  },
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -43,6 +70,46 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${BASE_URL}/#website`,
+      url: BASE_URL,
+      name: "모여맵",
+      alternateName: "MoyeMap",
+      description:
+        "소셜 파티, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 한눈에 비교하세요.",
+      inLanguage: "ko-KR",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${BASE_URL}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "WebApplication",
+      "@id": `${BASE_URL}/#webapp`,
+      name: "모여맵",
+      url: BASE_URL,
+      applicationCategory: "LifestyleApplication",
+      operatingSystem: "All",
+      inLanguage: "ko-KR",
+      description:
+        "서울 소셜 모임, 게스트하우스 파티, 혼술바 정보를 네이버 지도로 탐색하고 가격을 비교하는 서비스",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "KRW",
+      },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,6 +122,12 @@ export default function RootLayout({
       lang="ko"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="h-full bg-surface text-text font-sans overflow-hidden transition-colors duration-300">
         <ApolloWrapper>
           <ThemeProvider>

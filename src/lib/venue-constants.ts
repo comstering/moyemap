@@ -5,7 +5,7 @@ export type Region = (typeof REGIONS)[number];
 
 export const CATEGORY_LABELS: Record<VenueCategory, string> = {
   SOCIAL_PARTY: '🎉 소셜파티',
-  SOLO_PARTY: '🎊 혼파티',
+  SOLO_PARTY: '🎊 솔로파티',
   GUESTHOUSE_PARTY: '🏠 게하파티',
   ROTATION_DATING: '💕 로데이션',
   NETWORKING: '🤝 네트워킹',

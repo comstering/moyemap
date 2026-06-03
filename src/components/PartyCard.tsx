@@ -18,7 +18,7 @@ const CATEGORY_COLORS: Record<VenueCategory, string> = {
 
 const CATEGORY_LABELS: Record<VenueCategory, string> = {
   SOCIAL_PARTY:     '🎉 소셜파티',
-  SOLO_PARTY:       '🎊 혼파티',
+  SOLO_PARTY:       '🎊 솔로파티',
   GUESTHOUSE_PARTY: '🏠 게하파티',
   ROTATION_DATING:  '💕 로데이션',
   NETWORKING:       '🤝 네트워킹',
@@ -59,7 +59,7 @@ export default function PartyCard({ venue, isSelected, priority, onSelect }: Par
           {CATEGORY_LABELS[venue.category]}
         </div>
         <div className="absolute bottom-2.5 right-2.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-xl text-sm font-bold text-white">
-          ₩{venue.price.toLocaleString()}
+          {Number(venue.price) < 0 || Object.is(Number(venue.price), -0) ? '금액확인중' : `₩${venue.price.toLocaleString()}`}
         </div>
       </div>
 

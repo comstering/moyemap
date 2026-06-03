@@ -7,6 +7,7 @@ import NaverMap from '@/components/NaverMap';
 import QuickFilters from '@/components/QuickFilters';
 import PartyListPanel from '@/components/PartyListPanel';
 import PartyCard from '@/components/PartyCard';
+import DisclaimerModal from '@/components/DisclaimerModal';
 import { GET_VENUE_MARKERS, GET_VENUES } from '@/lib/graphql/queries';
 import { CategoryFilter, PriceFilter, VenueCard, VenueCategory, VenueMarker, priceFilterToRange } from '@/types/venue';
 import { REGIONS } from '@/lib/venue-constants';
@@ -63,6 +64,8 @@ export default function HomePage() {
   const handleBoundsChange = useCallback((bounds: Bounds) => setMapBounds(bounds), []);
 
   return (
+    <>
+    <DisclaimerModal />
     <div className="flex flex-col h-full overflow-hidden">
 
       {/* Mobile view toggle */}
@@ -200,5 +203,6 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
