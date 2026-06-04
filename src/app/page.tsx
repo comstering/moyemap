@@ -102,12 +102,14 @@ export default function HomePage() {
               onRegionChange={setRegion}
             />
           </div>
-          <PartyListPanel
-            venues={venues}
-            selectedVenueId={selectedVenueId}
-            onVenueSelect={handleVenueSelect}
-            loading={venuesLoading && !venues.length}
-          />
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <PartyListPanel
+              venues={venues}
+              selectedVenueId={selectedVenueId}
+              onVenueSelect={handleVenueSelect}
+              loading={venuesLoading && !venues.length}
+            />
+          </div>
         </aside>
 
         {/* Map */}
