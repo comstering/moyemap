@@ -29,9 +29,12 @@ export default function PartyListPanel({ venues, selectedVenueId, onVenueSelect,
     }
   }, [selectedVenueId]);
 
-  const sorted = [...venues].sort((a, b) =>
-    sort === 'price-desc' ? b.price - a.price : a.price - b.price
-  );
+  const sorted = [...venues].sort((a, b) => {
+    if (a.minPrice == null && b.minPrice == null) return 0;
+    if (a.minPrice == null) return 1;
+    if (b.minPrice == null) return -1;
+    return sort === 'price-desc' ? b.minPrice - a.minPrice : a.minPrice - b.minPrice;
+  });
 
   return (
     <div className="flex flex-col h-full">

@@ -5,13 +5,10 @@ export const VENUE_MARKER_FIELDS = gql`
     id
     title
     category
-    price
-    currency
+    minPrice
     latitude
     longitude
     region
-    imageUrl
-    tags
   }
 `;
 
@@ -27,7 +24,7 @@ export const VENUE_CARD_FIELDS = gql`
       longitude
       region
     }
-    price
+    minPrice
     currency
     imageUrl
     sourceUrl
@@ -50,7 +47,7 @@ export const VENUE_DETAIL_FIELDS = gql`
       city
       district
     }
-    price
+    minPrice
     currency
     imageUrl
     description

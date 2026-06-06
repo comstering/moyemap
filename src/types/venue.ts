@@ -28,7 +28,7 @@ export interface Venue {
   category: VenueCategory;
   status: VenueStatus;
   location: Location;
-  price: number;
+  minPrice: number | null;
   currency: string;
   imageUrl: string;
   description: string;
@@ -39,7 +39,7 @@ export interface Venue {
 }
 
 // VenueCard: 목록 표시에 필요한 필드만 (GET_VENUES 응답)
-export type VenueCard = Pick<Venue, 'id' | 'title' | 'category' | 'price' | 'currency' | 'imageUrl' | 'sourceUrl' | 'tags'> & {
+export type VenueCard = Pick<Venue, 'id' | 'title' | 'category' | 'minPrice' | 'currency' | 'imageUrl' | 'sourceUrl' | 'tags'> & {
   location: Pick<Location, 'name' | 'address' | 'latitude' | 'longitude' | 'region'>;
 };
 
@@ -48,13 +48,10 @@ export interface VenueMarker {
   id: string;
   title: string;
   category: VenueCategory;
-  price: number;
-  currency: string;
+  minPrice: number | null;
   latitude: number;
   longitude: number;
   region: string;
-  imageUrl: string;
-  tags: string[];
 }
 
 // 필터 타입

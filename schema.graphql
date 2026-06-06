@@ -1,0 +1,105 @@
+enum VenueCategory {
+  SOCIAL_PARTY
+  SOLO_PARTY
+  GUESTHOUSE_PARTY
+  ROTATION_DATING
+  NETWORKING
+  HONSOOL_BAR
+  BAR
+  WORKSHOP
+  ETC
+}
+
+enum VenueStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+type Location {
+  name: String!
+  address: String!
+  latitude: Float!
+  longitude: Float!
+  region: String!
+  city: String
+  district: String
+}
+
+type Venue {
+  id: ID!
+  title: String!
+  category: VenueCategory!
+  status: VenueStatus!
+  location: Location!
+  minPrice: Int
+  currency: String!
+  imageUrl: String!
+  description: String!
+  sourceUrl: String!
+  tags: [String!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+# 지도 마커 전용 — Location 중첩 없이 플랫 구조로 렌더링 비용 절감
+# imageUrl/tags/currency 제외: NaverMap.tsx 마커 렌더링에 미사용
+type VenueMarker {
+  id: ID!
+  title: String!
+  category: VenueCategory!
+  minPrice: Int
+  latitude: Float!
+  longitude: Float!
+  region: String!
+}
+
+# submitVenue 응답 — 검토 흐름에 필요한 최소 필드
+type SubmitVenuePayload {
+  id: ID!
+  title: String!
+  status: VenueStatus!
+}
+
+input GetVenueMarkersInput {
+  southWestLatitude: Float!
+  southWestLongitude: Float!
+  northEastLatitude: Float!
+  northEastLongitude: Float!
+  categories: [VenueCategory!]
+  region: String
+}
+
+input GetVenuesInput {
+  southWestLatitude: Float!
+  southWestLongitude: Float!
+  northEastLatitude: Float!
+  northEastLongitude: Float!
+  categories: [VenueCategory!]
+  region: String
+  minPrice: Int
+  maxPrice: Int
+}
+
+input SubmitVenueInput {
+  title: String!
+  category: VenueCategory!
+  minPrice: Int
+  sourceUrl: String!
+  locationName: String!
+  locationAddress: String!
+  locationRegion: String!
+  imageUrl: String
+  tags: [String!]!
+  description: String!
+}
+
+type Query {
+  venueMarkers(input: GetVenueMarkersInput!): [VenueMarker!]!
+  venues(input: GetVenuesInput!): [Venue!]!
+  venue(id: ID!): Venue
+}
+
+type Mutation {
+  submitVenue(input: SubmitVenueInput!): SubmitVenuePayload!
+}

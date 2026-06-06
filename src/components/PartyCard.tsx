@@ -59,7 +59,7 @@ export default function PartyCard({ venue, isSelected, priority, onSelect }: Par
           {CATEGORY_LABELS[venue.category]}
         </div>
         <div className="absolute bottom-2.5 right-2.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-xl text-sm font-bold text-white">
-          {Number(venue.price) < 0 || Object.is(Number(venue.price), -0) ? '금액확인중' : `₩${venue.price.toLocaleString()}`}
+          {venue.minPrice == null ? '금액확인중' : `₩${venue.minPrice.toLocaleString()}~`}
         </div>
       </div>
 
