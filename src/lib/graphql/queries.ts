@@ -1,6 +1,16 @@
 import { gql } from '@apollo/client/core';
 import { VENUE_CARD_FIELDS, VENUE_DETAIL_FIELDS, VENUE_MARKER_FIELDS } from './fragments';
 
+export const SUBMIT_VENUE = gql`
+  mutation SubmitVenue($input: SubmitVenueInput!) {
+    submitVenue(input: $input) {
+      id
+      title
+      status
+    }
+  }
+`;
+
 // 지도 마커용 - 뷰포트 bounds 기반으로 표시할 핀 조회
 export const GET_VENUE_MARKERS = gql`
   ${VENUE_MARKER_FIELDS}

@@ -3,21 +3,11 @@
 import { useState, KeyboardEvent } from 'react';
 import { X, ChevronRight, ChevronLeft, Check, Loader2, Sparkles } from 'lucide-react';
 import { useMutation } from '@apollo/client/react';
-import { gql } from '@apollo/client/core';
 import { VenueCategory } from '@/types/venue';
-import { CATEGORY_LABELS } from '@/lib/venue-constants';
+import { CATEGORY_LABELS, REGIONS } from '@/lib/venue-constants';
+import { SUBMIT_VENUE } from '@/lib/graphql/queries';
 
-const SUBMIT_VENUE = gql`
-  mutation SubmitVenue($input: SubmitVenueInput!) {
-    submitVenue(input: $input) {
-      id
-      title
-      status
-    }
-  }
-`;
-
-const SUBMIT_REGIONS = ['홍대/연남', '강남', '이태원', '성수', '기타'] as const;
+const SUBMIT_REGIONS = REGIONS.filter((r) => r !== '전체');
 const CATEGORIES = Object.entries(CATEGORY_LABELS) as [VenueCategory, string][];
 const STEPS = ['기본 정보', '위치', '상세'];
 
@@ -385,6 +375,7 @@ export default function SubmitVenueModal({ isOpen, onClose }: Props) {
   };
 
   const handleTagKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); handleTagAdd(); }
     if (e.key === 'Backspace' && !form.tagInput && form.tags.length > 0)
       set('tags', form.tags.slice(0, -1));
