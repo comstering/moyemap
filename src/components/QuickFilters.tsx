@@ -1,6 +1,7 @@
 'use client';
 
 import { CategoryFilter, PriceFilter } from '@/types/venue';
+import { CATEGORY_FILTER_OPTIONS } from '@/lib/venue-constants';
 
 interface QuickFiltersProps {
   category: CategoryFilter;
@@ -12,16 +13,6 @@ interface QuickFiltersProps {
   onRegionChange: (v: string) => void;
 }
 
-const CATEGORIES: { value: CategoryFilter; label: string }[] = [
-  { value: 'all',             label: '전체' },
-  { value: 'SOCIAL_PARTY',    label: '🎉 소셜파티' },
-  { value: 'HONSOOL_BAR',     label: '🍺 혼술바' },
-  { value: 'NETWORKING',      label: '🤝 네트워킹' },
-  { value: 'ROTATION_DATING', label: '💕 로데이션' },
-  { value: 'GUESTHOUSE_PARTY',label: '🏠 게하파티' },
-  { value: 'BAR',             label: '🍸 바' },
-  { value: 'WORKSHOP',        label: '🔧 워크샵' },
-];
 
 const PRICES: { value: PriceFilter; label: string }[] = [
   { value: 'all',       label: '전체 가격' },
@@ -69,7 +60,7 @@ export default function QuickFilters({
 }: QuickFiltersProps) {
   return (
     <div className="space-y-2">
-      <FilterChip items={CATEGORIES} value={category} onChange={onCategoryChange} />
+      <FilterChip items={CATEGORY_FILTER_OPTIONS} value={category} onChange={onCategoryChange} />
       <FilterChip items={PRICES} value={priceFilter} onChange={onPriceChange} />
       <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
         {regions.map((r) => (

@@ -1,4 +1,4 @@
-import { VenueCategory } from '@/types/venue';
+import { CategoryFilter, VenueCategory } from '@/types/venue';
 
 export const REGIONS = ['전체', '홍대/연남', '강남', '이태원', '성수'] as const;
 export type Region = (typeof REGIONS)[number];
@@ -14,6 +14,11 @@ export const CATEGORY_LABELS: Record<VenueCategory, string> = {
   WORKSHOP: '🔧 워크샵',
   ETC: '📌 기타',
 };
+
+export const CATEGORY_FILTER_OPTIONS: { value: CategoryFilter; label: string }[] = [
+  { value: 'all', label: '전체' },
+  ...(Object.entries(CATEGORY_LABELS) as [VenueCategory, string][]).map(([value, label]) => ({ value, label })),
+];
 
 export const CATEGORY_COLORS: Record<VenueCategory, string> = {
   SOCIAL_PARTY: '#FF6B6B',

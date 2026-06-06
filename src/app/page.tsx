@@ -10,7 +10,7 @@ import PartyCard from '@/components/PartyCard';
 import DisclaimerModal from '@/components/DisclaimerModal';
 import { GET_VENUE_MARKERS, GET_VENUES } from '@/lib/graphql/queries';
 import { CategoryFilter, PriceFilter, VenueCard, VenueCategory, VenueMarker, priceFilterToRange } from '@/types/venue';
-import { REGIONS } from '@/lib/venue-constants';
+import { CATEGORY_FILTER_OPTIONS, REGIONS } from '@/lib/venue-constants';
 
 type Bounds = { sw: { lat: number; lng: number }; ne: { lat: number; lng: number } };
 
@@ -19,14 +19,6 @@ const SEOUL_DEFAULT_BOUNDS: Bounds = {
   sw: { lat: 37.41, lng: 126.76 },
   ne: { lat: 37.70, lng: 127.18 },
 };
-
-const FLOATING_CATEGORIES: { value: CategoryFilter; label: string }[] = [
-  { value: 'all', label: '전체' },
-  { value: 'SOCIAL_PARTY', label: '🎉 소셜' },
-  { value: 'HONSOOL_BAR', label: '🍺 혼술바' },
-  { value: 'NETWORKING', label: '🤝 네트워킹' },
-  { value: 'ROTATION_DATING', label: '💕 로데이션' },
-];
 
 export default function HomePage() {
   const [category, setCategory] = useState<CategoryFilter>('all');
@@ -117,7 +109,7 @@ export default function HomePage() {
           {/* Floating category filter — mobile only */}
           <div className="lg:hidden absolute top-3 left-0 right-0 z-20 px-3 pointer-events-none">
             <div className="flex gap-1.5 overflow-x-auto scrollbar-hide pointer-events-auto pb-1">
-              {FLOATING_CATEGORIES.map((cat) => (
+              {CATEGORY_FILTER_OPTIONS.map((cat) => (
                 <button
                   key={cat.value}
                   onClick={() => setCategory(cat.value)}

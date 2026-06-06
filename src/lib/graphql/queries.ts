@@ -4,7 +4,7 @@ import { VENUE_CARD_FIELDS, VENUE_DETAIL_FIELDS, VENUE_MARKER_FIELDS } from './f
 // 지도 마커용 - 뷰포트 bounds 기반으로 표시할 핀 조회
 export const GET_VENUE_MARKERS = gql`
   ${VENUE_MARKER_FIELDS}
-  query GetVenueMarkers($input: GetVenueMarkersInput) {
+  query GetVenueMarkers($input: GetVenueMarkersInput!) {
     venueMarkers(input: $input) {
       ...VenueMarkerFields
     }
@@ -15,7 +15,7 @@ export const GET_VENUE_MARKERS = gql`
 // NOTE: 서버에 bounds 파라미터 추가 요청 필요 (현재 GetVenuesInput에 없음)
 export const GET_VENUES = gql`
   ${VENUE_CARD_FIELDS}
-  query GetVenues($input: GetVenuesInput) {
+  query GetVenues($input: GetVenuesInput!) {
     venues(input: $input) {
       ...VenueCardFields
     }
