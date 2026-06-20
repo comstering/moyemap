@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://moyemap.lomeone.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://moyemap.com';
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL ?? 'http://localhost:8080/graphql';
 
 async function fetchVenueIds(): Promise<string[]> {
