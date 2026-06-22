@@ -4,10 +4,10 @@ import { useState, KeyboardEvent } from 'react';
 import { X, ChevronRight, ChevronLeft, Check, Loader2, Sparkles } from 'lucide-react';
 import { useMutation } from '@apollo/client/react';
 import { VenueCategory } from '@/types/venue';
-import { CATEGORY_LABELS, REGIONS } from '@/lib/venue-constants';
+import { CATEGORY_LABELS } from '@/lib/venue-constants';
 import { SUBMIT_VENUE } from '@/lib/graphql/queries';
 
-const SUBMIT_REGIONS = REGIONS.filter((r) => r !== '전체');
+const SUBMIT_REGIONS = ['홍대/연남', '강남', '이태원', '성수', '기타'] as const;
 const CATEGORIES = Object.entries(CATEGORY_LABELS) as [VenueCategory, string][];
 const STEPS = ['기본 정보', '위치', '상세'];
 

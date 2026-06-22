@@ -53,7 +53,6 @@ const CATEGORY_LABELS: Record<VenueCategory, string> = {
 };
 
 type Bounds = { sw: { lat: number; lng: number }; ne: { lat: number; lng: number } };
-
 interface NaverMapProps {
   markers: VenueMarker[];
   selectedVenueId?: string | null;

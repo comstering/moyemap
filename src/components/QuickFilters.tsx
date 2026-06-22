@@ -1,79 +1,64 @@
 'use client';
 
-import { CategoryFilter, PriceFilter } from '@/types/venue';
+import { PriceFilter, VenueCategory } from '@/types/venue';
 import { CATEGORY_FILTER_OPTIONS } from '@/lib/venue-constants';
 
 interface QuickFiltersProps {
-  category: CategoryFilter;
+  selectedCategories: VenueCategory[];
   priceFilter: PriceFilter;
-  region: string;
-  regions: readonly string[];
-  onCategoryChange: (v: CategoryFilter) => void;
+  onCategoryToggle: (cat: VenueCategory) => void;
+  onCategoryReset: () => void;
   onPriceChange: (v: PriceFilter) => void;
-  onRegionChange: (v: string) => void;
 }
-
 
 const PRICES: { value: PriceFilter; label: string }[] = [
-  { value: 'all',       label: '전체 가격' },
-  { value: 'under30k',  label: '3만원 미만' },
-  { value: '30k-50k',   label: '3~5만원' },
-  { value: 'over50k',   label: '5만원 이상' },
+  { value: 'all',      label: '전체 가격' },
+  { value: 'under30k', label: '3만원 미만' },
+  { value: '30k-50k',  label: '3~5만원' },
+  { value: 'over50k',  label: '5만원 이상' },
 ];
 
-function FilterChip<T extends string>({
-  items,
-  value,
-  onChange,
-}: {
-  items: { value: T; label: string }[];
-  value: T;
-  onChange: (v: T) => void;
-}) {
-  return (
-    <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-      {items.map((item) => (
-        <button
-          key={item.value}
-          onClick={() => onChange(item.value)}
-          className={`shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition-all border ${
-            value === item.value
-              ? 'bg-primary border-primary text-white shadow-md shadow-primary/20'
-              : 'bg-surface-alt border-border text-text-secondary hover:bg-surface-elevated hover:text-text'
-          }`}
-        >
-          {item.label}
-        </button>
-      ))}
-    </div>
-  );
-}
+const chipBase = 'shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition-all border';
+const chipActive = 'bg-primary border-primary text-white shadow-md shadow-primary/20';
+const chipInactive = 'bg-surface-alt border-border text-text-secondary hover:bg-surface-elevated hover:text-text';
 
 export default function QuickFilters({
-  category,
+  selectedCategories,
   priceFilter,
-  region,
-  regions,
-  onCategoryChange,
+  onCategoryToggle,
+  onCategoryReset,
   onPriceChange,
-  onRegionChange,
 }: QuickFiltersProps) {
   return (
-    <div className="space-y-2">
-      <FilterChip items={CATEGORY_FILTER_OPTIONS} value={category} onChange={onCategoryChange} />
-      <FilterChip items={PRICES} value={priceFilter} onChange={onPriceChange} />
+    <div className="space-y-2.5">
+      {/* 카테고리 — 멀티셀렉트 */}
       <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-        {regions.map((r) => (
+        <button
+          onClick={onCategoryReset}
+          className={`${chipBase} ${selectedCategories.length === 0 ? chipActive : chipInactive}`}
+        >
+          전체
+        </button>
+        {CATEGORY_FILTER_OPTIONS.map((cat) => (
           <button
-            key={r}
-            onClick={() => onRegionChange(r)}
-            className={`shrink-0 px-2.5 py-1 rounded-lg text-[11px] font-bold border transition-all ${
-              region === r
-                ? 'bg-primary-subtle border-primary/30 text-primary'
-                : 'border-transparent text-text-muted hover:text-text-secondary'
-            }`}
+            key={cat.value}
+            onClick={() => onCategoryToggle(cat.value)}
+            className={`${chipBase} ${selectedCategories.includes(cat.value) ? chipActive : chipInactive}`}
           >
-            {r}
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      {/* 가격 */}
+      <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+        {PRICES.map((p) => (
+          <button
+            key={p.value}
+            onClick={() => onPriceChange(p.value)}
+            className={`${chipBase} ${priceFilter === p.value ? chipActive : chipInactive}`}
+          >
+            {p.label}
           </button>
         ))}
       </div>

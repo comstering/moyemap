@@ -9,8 +9,9 @@ import PartyListPanel from '@/components/PartyListPanel';
 import PartyCard from '@/components/PartyCard';
 import DisclaimerModal from '@/components/DisclaimerModal';
 import { GET_VENUE_MARKERS, GET_VENUES } from '@/lib/graphql/queries';
-import { CategoryFilter, PriceFilter, VenueCard, VenueCategory, VenueMarker, priceFilterToRange } from '@/types/venue';
-import { CATEGORY_FILTER_OPTIONS, REGIONS } from '@/lib/venue-constants';
+import { PriceFilter, VenueCard, VenueCategory, VenueMarker, priceFilterToRange } from '@/types/venue';
+import { CATEGORY_FILTER_OPTIONS } from '@/lib/venue-constants';
+
 
 type Bounds = { sw: { lat: number; lng: number }; ne: { lat: number; lng: number } };
 
@@ -21,17 +22,12 @@ const SEOUL_DEFAULT_BOUNDS: Bounds = {
 };
 
 export default function HomePage() {
-  const [category, setCategory] = useState<CategoryFilter>('all');
+  const [selectedCategories, setSelectedCategories] = useState<VenueCategory[]>([]);
   const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
-  const [region, setRegion] = useState('전체');
   const [selectedVenueId, setSelectedVenueId] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [mapBounds, setMapBounds] = useState<Bounds>(SEOUL_DEFAULT_BOUNDS);
-
-  const categoriesInput = category === 'all' ? undefined : [category as VenueCategory];
-  const regionInput = region === '전체' ? undefined : region;
-  const priceRange = priceFilterToRange(priceFilter);
 
   const boundsInput = {
     northEastLatitude: mapBounds.ne.lat,
@@ -40,20 +36,50 @@ export default function HomePage() {
     southWestLongitude: mapBounds.sw.lng,
   };
 
+  // 지도 bounds 변경 시에만 서버 호출 — 필터는 클라이언트에서 적용
   const { data: markersData } = useQuery<{ venueMarkers: VenueMarker[] }>(GET_VENUE_MARKERS, {
-    variables: { input: { ...boundsInput, categories: categoriesInput, region: regionInput } },
+    variables: { input: boundsInput },
   });
 
   const { data: venuesData, loading: venuesLoading } = useQuery<{ venues: VenueCard[] }>(GET_VENUES, {
-    variables: { input: { ...boundsInput, categories: categoriesInput, region: regionInput, ...priceRange } },
+    variables: { input: boundsInput },
   });
 
-  const markers = markersData?.venueMarkers ?? [];
-  const venues = venuesData?.venues ?? [];
+  const allMarkers = markersData?.venueMarkers ?? [];
+  const allVenues = venuesData?.venues ?? [];
+
+  // 클라이언트 사이드 필터링
+  const priceRange = priceFilterToRange(priceFilter);
+
+  const markers = selectedCategories.length === 0
+    ? allMarkers
+    : allMarkers.filter((m) => selectedCategories.includes(m.category));
+
+  const venues = allVenues.filter((v) => {
+    if (selectedCategories.length > 0 && !selectedCategories.includes(v.category)) return false;
+    if (priceFilter !== 'all') {
+      if (v.minPrice === null) return false;
+      if (priceRange.minPrice !== undefined && v.minPrice < priceRange.minPrice) return false;
+      if (priceRange.maxPrice !== undefined && v.minPrice > priceRange.maxPrice) return false;
+    }
+    return true;
+  });
 
   const handleVenueSelect = useCallback((id: string) => setSelectedVenueId(id), []);
-
   const handleBoundsChange = useCallback((bounds: Bounds) => setMapBounds(bounds), []);
+  const handleCategoryToggle = useCallback((cat: VenueCategory) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }, []);
+  const handleCategoryReset = useCallback(() => setSelectedCategories([]), []);
+  const filterProps = {
+    selectedCategories,
+    priceFilter,
+    onCategoryToggle: handleCategoryToggle,
+    onCategoryReset: handleCategoryReset,
+    onPriceChange: setPriceFilter,
+  };
 
   return (
     <>
@@ -84,15 +110,7 @@ export default function HomePage() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex flex-col w-[380px] border-r border-border bg-surface-alt/30">
           <div className="px-4 py-3 border-b border-border">
-            <QuickFilters
-              category={category}
-              priceFilter={priceFilter}
-              region={region}
-              regions={REGIONS}
-              onCategoryChange={setCategory}
-              onPriceChange={setPriceFilter}
-              onRegionChange={setRegion}
-            />
+            <QuickFilters {...filterProps} />
           </div>
           <div className="flex-1 min-h-0 overflow-hidden">
             <PartyListPanel
@@ -109,12 +127,22 @@ export default function HomePage() {
           {/* Floating category filter — mobile only */}
           <div className="lg:hidden absolute top-3 left-0 right-0 z-20 px-3 pointer-events-none">
             <div className="flex gap-1.5 overflow-x-auto scrollbar-hide pointer-events-auto pb-1">
+              <button
+                onClick={handleCategoryReset}
+                className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md border transition-all shadow-lg ${
+                  selectedCategories.length === 0
+                    ? 'bg-primary border-primary text-white'
+                    : 'bg-black/65 border-white/15 text-white hover:bg-black/80'
+                }`}
+              >
+                전체
+              </button>
               {CATEGORY_FILTER_OPTIONS.map((cat) => (
                 <button
                   key={cat.value}
-                  onClick={() => setCategory(cat.value)}
+                  onClick={() => handleCategoryToggle(cat.value)}
                   className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md border transition-all shadow-lg ${
-                    category === cat.value
+                    selectedCategories.includes(cat.value)
                       ? 'bg-primary border-primary text-white'
                       : 'bg-black/65 border-white/15 text-white hover:bg-black/80'
                   }`}
@@ -136,15 +164,7 @@ export default function HomePage() {
         {/* Mobile list view */}
         <div className={`lg:hidden absolute inset-0 bg-surface flex flex-col ${mobileView === 'list' ? 'block' : 'hidden'}`}>
           <div className="px-4 py-3 border-b border-border">
-            <QuickFilters
-              category={category}
-              priceFilter={priceFilter}
-              region={region}
-              regions={REGIONS}
-              onCategoryChange={setCategory}
-              onPriceChange={setPriceFilter}
-              onRegionChange={setRegion}
-            />
+            <QuickFilters {...filterProps} />
           </div>
           <div className="flex-1 overflow-hidden">
             <PartyListPanel

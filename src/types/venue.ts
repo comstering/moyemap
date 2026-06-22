@@ -55,7 +55,6 @@ export interface VenueMarker {
 }
 
 // 필터 타입
-export type CategoryFilter = 'all' | VenueCategory;
 export type PriceFilter = 'all' | 'under30k' | '30k-50k' | 'over50k';
 
 // 가격 필터 → minPrice/maxPrice 변환

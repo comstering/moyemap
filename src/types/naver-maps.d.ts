@@ -5,6 +5,7 @@ declare namespace naver.maps {
     getBounds(): LatLngBounds;
     setCenter(latlng: LatLng): void;
     panTo(latlng: LatLng, options?: object): void;
+    setZoom(zoom: number, animation?: boolean): void;
     destroy(): void;
   }
   class LatLng {
