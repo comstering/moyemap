@@ -5,7 +5,7 @@ import { AlertTriangle, ExternalLink } from 'lucide-react';
 
 const STORAGE_KEY = 'moyemap_disclaimer_v1';
 
-export default function DisclaimerModal() {
+const DisclaimerModal = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -77,4 +77,5 @@ export default function DisclaimerModal() {
       </div>
     </div>
   );
-}
+};
+export default DisclaimerModal;

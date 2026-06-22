@@ -21,7 +21,7 @@ const SEOUL_DEFAULT_BOUNDS: Bounds = {
   ne: { lat: 37.70, lng: 127.18 },
 };
 
-export default function HomePage() {
+const HomePage = () => {
   const [selectedCategories, setSelectedCategories] = useState<VenueCategory[]>([]);
   const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
   const [selectedVenueId, setSelectedVenueId] = useState<string | null>(null);
@@ -219,4 +219,5 @@ export default function HomePage() {
     </div>
     </>
   );
-}
+};
+export default HomePage;

@@ -49,7 +49,7 @@ interface Props {
 const inputCls =
   'w-full bg-surface-alt border border-border text-text text-sm px-3 py-2 rounded-xl outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-text-muted';
 
-function Field({
+const Field = ({
   label,
   error,
   required,
@@ -61,7 +61,7 @@ function Field({
   required?: boolean;
   hint?: string;
   children: React.ReactNode;
-}) {
+}) => {
   return (
     <div className="space-y-1.5">
       <label className="text-xs font-bold text-text">
@@ -73,9 +73,9 @@ function Field({
       {error && <p className="text-[11px] text-red-400">{error}</p>}
     </div>
   );
-}
+};
 
-function Step1({
+const Step1 = ({
   form,
   errors,
   set,
@@ -83,7 +83,7 @@ function Step1({
   form: Form;
   errors: Record<string, string>;
   set: (k: keyof Form, v: unknown) => void;
-}) {
+}) => {
   return (
     <div className="p-5 space-y-4">
       <Field label="제목" required error={errors.title}>
@@ -163,9 +163,9 @@ function Step1({
       </Field>
     </div>
   );
-}
+};
 
-function Step2({
+const Step2 = ({
   form,
   errors,
   set,
@@ -173,7 +173,7 @@ function Step2({
   form: Form;
   errors: Record<string, string>;
   set: (k: keyof Form, v: unknown) => void;
-}) {
+}) => {
   return (
     <div className="p-5 space-y-4">
       <Field
@@ -219,9 +219,9 @@ function Step2({
       </Field>
     </div>
   );
-}
+};
 
-function Step3({
+const Step3 = ({
   form,
   errors,
   set,
@@ -233,7 +233,7 @@ function Step3({
   set: (k: keyof Form, v: unknown) => void;
   onTagAdd: () => void;
   onTagKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
-}) {
+}) => {
   return (
     <div className="p-5 space-y-4">
       <Field
@@ -303,9 +303,9 @@ function Step3({
       </Field>
     </div>
   );
-}
+};
 
-function SuccessView({ onClose }: { onClose: () => void }) {
+const SuccessView = ({ onClose }: { onClose: () => void }) => {
   return (
     <div className="p-10 flex flex-col items-center justify-center text-center space-y-4">
       <div className="w-14 h-14 rounded-2xl bg-primary/15 flex items-center justify-center">
@@ -327,9 +327,9 @@ function SuccessView({ onClose }: { onClose: () => void }) {
       </button>
     </div>
   );
-}
+};
 
-export default function SubmitVenueModal({ isOpen, onClose }: Props) {
+const SubmitVenueModal = ({ isOpen, onClose }: Props) => {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Form>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -529,4 +529,5 @@ export default function SubmitVenueModal({ isOpen, onClose }: Props) {
       </div>
     </div>
   );
-}
+};
+export default SubmitVenueModal;

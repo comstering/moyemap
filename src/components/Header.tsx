@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTheme } from './ThemeProvider';
 import SubmitVenueModal from './SubmitVenueModal';
 
-export default function Header() {
+const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const [showSubmit, setShowSubmit] = useState(false);
 
@@ -51,4 +51,5 @@ export default function Header() {
       <SubmitVenueModal isOpen={showSubmit} onClose={() => setShowSubmit(false)} />
     </>
   );
-}
+};
+export default Header;

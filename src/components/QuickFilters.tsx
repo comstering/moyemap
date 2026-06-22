@@ -22,13 +22,13 @@ const chipBase = 'shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition-a
 const chipActive = 'bg-primary border-primary text-white shadow-md shadow-primary/20';
 const chipInactive = 'bg-surface-alt border-border text-text-secondary hover:bg-surface-elevated hover:text-text';
 
-export default function QuickFilters({
+const QuickFilters = ({
   selectedCategories,
   priceFilter,
   onCategoryToggle,
   onCategoryReset,
   onPriceChange,
-}: QuickFiltersProps) {
+}: QuickFiltersProps) => {
   return (
     <div className="space-y-2.5">
       {/* 카테고리 — 멀티셀렉트 */}
@@ -64,4 +64,5 @@ export default function QuickFilters({
       </div>
     </div>
   );
-}
+};
+export default QuickFilters;

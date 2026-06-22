@@ -14,11 +14,9 @@ const ThemeContext = createContext<ThemeContextValue>({
   toggleTheme: () => {},
 });
 
-export function useTheme() {
-  return useContext(ThemeContext);
-}
+export const useTheme = () => useContext(ThemeContext);
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
@@ -49,4 +47,5 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       {children}
     </ThemeContext>
   );
-}
+};
+export default ThemeProvider;

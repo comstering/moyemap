@@ -35,7 +35,7 @@ interface PartyCardProps {
   onSelect?: (id: string) => void;
 }
 
-export default function PartyCard({ venue, isSelected, priority, onSelect }: PartyCardProps) {
+const PartyCard = ({ venue, isSelected, priority, onSelect }: PartyCardProps) => {
   return (
     <div
       className={`bg-surface-alt border rounded-2xl overflow-hidden transition-all duration-200 group cursor-pointer ${
@@ -92,4 +92,5 @@ export default function PartyCard({ venue, isSelected, priority, onSelect }: Par
       </div>
     </div>
   );
-}
+};
+export default PartyCard;

@@ -60,7 +60,7 @@ interface NaverMapProps {
   onBoundsChange?: (bounds: Bounds) => void;
 }
 
-function createMarkerContent(marker: VenueMarker, isSelected: boolean, isHovered: boolean, isDark: boolean) {
+const createMarkerContent = (marker: VenueMarker, isSelected: boolean, isHovered: boolean, isDark: boolean) => {
   const colors = isDark ? MARKER_COLORS_DARK[marker.category] : MARKER_COLORS[marker.category];
   const icon = CATEGORY_ICONS[marker.category];
   const active = isSelected || isHovered;
@@ -98,9 +98,9 @@ function createMarkerContent(marker: VenueMarker, isSelected: boolean, isHovered
       "></div>
     </div>
   `;
-}
+};
 
-function createInfoContent(marker: VenueMarker, isDark: boolean) {
+const createInfoContent = (marker: VenueMarker, isDark: boolean) => {
   const colors = isDark ? MARKER_COLORS_DARK[marker.category] : MARKER_COLORS[marker.category];
   const bg = isDark ? '#18191A' : '#ffffff';
   const textPrimary = isDark ? '#E4E6EB' : '#2B2B2B';
@@ -117,16 +117,16 @@ function createInfoContent(marker: VenueMarker, isDark: boolean) {
       <div style="font-size:18px;font-weight:800;color:${textPrimary};">${marker.minPrice == null ? '금액확인중' : '₩' + marker.minPrice.toLocaleString() + '~'}</div>
     </div>
   `;
-}
+};
 
 const DEFAULT_CENTER = { lat: 37.5175, lng: 126.9674 };
 
-export default function NaverMap({
+const NaverMap = ({
   markers,
   selectedVenueId,
   onVenueSelect,
   onBoundsChange,
-}: NaverMapProps) {
+}: NaverMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<naver.maps.Map | null>(null);
   const markersRef = useRef<Map<string, naver.maps.Marker>>(new Map());
@@ -314,4 +314,5 @@ export default function NaverMap({
       )}
     </div>
   );
-}
+};
+export default NaverMap;

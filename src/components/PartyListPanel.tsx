@@ -14,7 +14,7 @@ interface PartyListPanelProps {
   loading?: boolean;
 }
 
-export default function PartyListPanel({ venues, selectedVenueId, onVenueSelect, loading }: PartyListPanelProps) {
+const PartyListPanel = ({ venues, selectedVenueId, onVenueSelect, loading }: PartyListPanelProps) => {
   const [sort, setSort] = useState<SortOption>('price-asc');
   const listRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -84,4 +84,5 @@ export default function PartyListPanel({ venues, selectedVenueId, onVenueSelect,
       </div>
     </div>
   );
-}
+};
+export default PartyListPanel;
